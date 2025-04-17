@@ -19,4 +19,7 @@ export const state = $state({
     stations: [] as Station[],
     backgrounds: [] as Background[],
     atmospheres: [] as Atmosphere[],
+    
+    // in daemon.svelte
+    togglePlay: (() => {}) as () => void
 });

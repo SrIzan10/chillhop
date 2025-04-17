@@ -6,6 +6,35 @@
     // svelte-ignore non_reactive_update
     let audioElement: HTMLAudioElement;
 
+    // Create a shared function to toggle playback
+    function togglePlayback(play: boolean) {
+        if (!audioElement) return;
+        
+        if (play && state.hasInteracted) {
+            audioElement.play().catch(() => {
+                state.error = "Audio playback failed. Please interact with the page first.";
+                state.isPlaying = false;
+            });
+        } else {
+            audioElement.pause();
+        }
+    }
+
+    // Export this so it can be used by other components
+    function playAudio() {
+        togglePlayback(true);
+    }
+
+    function pauseAudio() {
+        togglePlayback(false);
+    }
+
+    // Make togglePlay available globally through state
+    state.togglePlay = () => {
+        state.isPlaying = !state.isPlaying;
+        togglePlayback(state.isPlaying);
+    };
+
     onMount(async () => {
         const data = await getGeneralData();
         if (data) {
@@ -55,31 +84,15 @@
 
     $effect(() => {
         if (!audioElement) return;
-
-        if (state.isPlaying && state.hasInteracted) {
-            audioElement.play().catch(() => {
-                state.error = "Audio playback failed. Please interact with the page first.";
-                state.isPlaying = false;
-            });
-        } else {
-            audioElement.pause();
-        }
-
-        if (state.currentTime > 0) {
-            audioElement.currentTime = state.currentTime;
-        }
+        togglePlayback(state.isPlaying);
     });
 </script>
 
 {#if !state.hasInteracted}
   <button class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer" onclick={() => {
     state.hasInteracted = true;
-    
-    if (state.isPlaying && audioElement) {
-        audioElement.play().catch(() => {
-            state.error = "Audio playback failed after interaction.";
-            state.isPlaying = false;
-        });
+    if (state.isPlaying) {
+      playAudio();
     }
   }}>
     <p>Click anywhere on the screen</p>
@@ -91,15 +104,15 @@
     bind:this={audioElement}
     src={`https://stream.chillhop.com/mp3/${state.currentSong!.fileId}`}
     autoplay
+    volume={state.volume}
     onended={() => {
         state.currentSong = null;
         state.currentTime = 0;
         state.isPlaying = false;
     }}
     ontimeupdate={() => {
-        const audio = document.querySelector("audio");
-        if (audio) {
-            state.currentTime = audio.currentTime;
+        if (audioElement) {
+            state.currentTime = audioElement.currentTime;
         }
     }}
     class="hidden"

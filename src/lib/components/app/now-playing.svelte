@@ -5,11 +5,22 @@
   import Play from "@lucide/svelte/icons/play";
 
   function togglePlay() {
-    state.isPlaying = !state.isPlaying;
+    state.togglePlay();
   }
 </script>
 
-<Button size="icon" onclick={togglePlay} class="w-10 h-10 *:text-white">
+<img
+  src={state.currentSong?.image}
+  alt="Cover Art"
+  class="size-16 rounded-lg shadow-lg"
+/>
+
+<div class="flex flex-col ml-4">
+  <h2 class="text-lg font-semibold text-muted">{state.currentSong?.title}</h2>
+  <p class="text-sm text-muted">{state.currentSong?.artists}</p>
+</div>
+
+<Button size="icon" onclick={togglePlay} class="w-10 h-10 *:text-white ml-4">
   {#if state.isPlaying}
     <Pause />
   {:else}
