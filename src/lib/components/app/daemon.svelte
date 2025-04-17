@@ -54,11 +54,9 @@
     });
 
     $effect(() => {
-        console.log('asdf')
-        // Run this effect whenever state.isPlaying or audioElement changes
         if (!audioElement) return;
 
-        if (state.isPlaying) {
+        if (state.isPlaying && state.hasInteracted) {
             audioElement.play().catch(() => {
                 state.error = "Audio playback failed. Please interact with the page first.";
                 state.isPlaying = false;
@@ -75,7 +73,14 @@
 
 {#if !state.hasInteracted}
   <button class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer" onclick={() => {
-    state.hasInteracted = true
+    state.hasInteracted = true;
+    
+    if (state.isPlaying && audioElement) {
+        audioElement.play().catch(() => {
+            state.error = "Audio playback failed after interaction.";
+            state.isPlaying = false;
+        });
+    }
   }}>
     <p>Click anywhere on the screen</p>
   </button>
