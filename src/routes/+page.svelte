@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+  import BgImage from "@/components/app/bg-image.svelte";
+  import BottomBar from "@/components/app/bottom-bar.svelte";
+import Button from "@/components/ui/button/button.svelte";
+
+</script>
+
+<BgImage />
+<BottomBar />
