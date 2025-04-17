@@ -6,7 +6,6 @@
     // svelte-ignore non_reactive_update
     let audioElement: HTMLAudioElement;
 
-    // Create a shared function to toggle playback
     function togglePlayback(play: boolean) {
         if (!audioElement) return;
         
@@ -15,21 +14,16 @@
                 state.error = "Audio playback failed. Please interact with the page first.";
                 state.isPlaying = false;
             });
+            audioElement.currentTime = state.currentTime;
         } else {
             audioElement.pause();
         }
     }
 
-    // Export this so it can be used by other components
     function playAudio() {
         togglePlayback(true);
     }
 
-    function pauseAudio() {
-        togglePlayback(false);
-    }
-
-    // Make togglePlay available globally through state
     state.togglePlay = () => {
         state.isPlaying = !state.isPlaying;
         togglePlayback(state.isPlaying);
@@ -37,19 +31,17 @@
 
     onMount(async () => {
         const data = await getGeneralData();
-        if (data) {
-            state.presets = data.presets;
-            state.stations = data.stations;
-            state.backgrounds = data.backgrounds;
-            state.atmospheres = data.atmospheres;
+        state.presets = data.presets;
+        state.stations = data.stations;
+        state.backgrounds = data.backgrounds;
+        state.atmospheres = data.atmospheres;
 
-            if (data.stations.length > 0 && state.currentStation === null) {
-                state.currentStation = data.stations[0].id;
-            }
-            if (data.backgrounds.length > 0 && state.currentBackgroundId === null) {
-                const firstActiveBg = data.backgrounds.find(bg => bg.isActive && !bg.parentId);
-                state.currentBackgroundId = firstActiveBg ? firstActiveBg.id : (data.backgrounds[0]?.id || null);
-            }
+        if (data.stations.length > 0 && state.currentStation === null) {
+            state.currentStation = data.stations[0].id;
+        }
+        if (data.backgrounds.length > 0 && state.currentBackgroundId === null) {
+            const firstActiveBg = data.backgrounds.find(bg => bg.isActive && !bg.parentId);
+            state.currentBackgroundId = firstActiveBg ? firstActiveBg.id : (data.backgrounds[0]?.id || null);
         } else {
             state.error = "Failed to load initial data (empty response).";
         }
@@ -100,21 +92,35 @@
 {/if}
 
 {#if !state.isLoading}
-<audio
-    bind:this={audioElement}
-    src={`https://stream.chillhop.com/mp3/${state.currentSong!.fileId}`}
-    autoplay
-    volume={state.volume}
-    onended={() => {
-        state.currentSong = null;
-        state.currentTime = 0;
-        state.isPlaying = false;
-    }}
-    ontimeupdate={() => {
-        if (audioElement) {
-            state.currentTime = audioElement.currentTime;
-        }
-    }}
-    class="hidden"
-></audio>
+    <audio
+        bind:this={audioElement}
+        src={`https://stream.chillhop.com/mp3/${state.currentSong!.fileId}`}
+        autoplay
+        volume={state.volume}
+        onended={async () => {
+            state.currentSong = null;
+            state.currentTime = 0;
+
+            state.songQueue.shift();
+            if (state.songQueue.length > 0) {
+                state.currentSong = state.songQueue[0];
+                state.duration = state.currentSong.duration;
+            } else {
+                const stationSongs = await getStationSongs(state.currentStation!);
+                if (stationSongs) {
+                    state.songQueue = stationSongs;
+                    state.currentSong = state.songQueue[0];
+                    state.duration = state.currentSong.duration;
+                } else {
+                    state.error = "Failed to load songs.";
+                }
+            }
+        }}
+        ontimeupdate={() => {
+            if (audioElement) {
+                state.currentTime = audioElement.currentTime;
+            }
+        }}
+        class="hidden"
+    ></audio>
 {/if}

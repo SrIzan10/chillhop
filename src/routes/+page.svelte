@@ -24,6 +24,6 @@
    <div class="flex h-screen w-full items-center justify-center text-red-500">
     <p>Error: {state.error}</p>
    </div>
-{:else}
+{:else if state.hasInteracted}
   <BottomBar />
 {/if}
