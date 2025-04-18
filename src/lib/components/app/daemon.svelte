@@ -1,11 +1,11 @@
 <script lang="ts">
   import { state } from '@/state.svelte';
-  import { getGeneralData, getStationSongs } from '@/utils';
+  import { getGeneralData, getStationSongs, setSongTime } from '@/utils';
   import { onMount } from 'svelte';
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
-  let isInteracting = false; // Flag to prevent multiple interactions
+  let isInteracting = false;
 
   function togglePlayback(play: boolean) {
     if (!audioElement) return;
@@ -29,22 +29,6 @@
     state.isPlaying = !state.isPlaying;
     togglePlayback(state.isPlaying);
   };
-
-  function handleInteraction() {
-    if (isInteracting) return;
-
-    isInteracting = true;
-    state.hasInteracted = true;
-
-    if (state.isPlaying) {
-      setTimeout(() => {
-        playAudio();
-        isInteracting = false;
-      }, 100);
-    } else {
-      isInteracting = false;
-    }
-  }
 
   onMount(async () => {
     const data = await getGeneralData();
@@ -79,16 +63,7 @@
       state.error = 'No songs available.';
     }
 
-    const currentTime = new Date().getTime() / 1000;
-    const startTime = new Date(state.currentSong!.startTime).getTime() / 1000;
-    const endTime = new Date(state.currentSong!.endTime).getTime() / 1000;
-    const duration = endTime - startTime;
-    const elapsed = currentTime - startTime;
-    if (elapsed > 0 && elapsed < duration) {
-      state.currentTime = elapsed;
-    } else {
-      state.currentTime = 0;
-    }
+    setSongTime()
 
     state.isLoading = false;
   });
@@ -97,12 +72,51 @@
     if (!audioElement) return;
     togglePlayback(state.isPlaying);
   });
+
+  $effect(() => {
+    const currentTime = state.currentTime;
+    const currentSong = state.currentSong;
+    console.log(`setting time to ${currentTime}`);
+    
+    if (!audioElement || !currentSong) return;
+    const handleTimeSet = () => {
+      if (audioElement.readyState >= 2) {
+        audioElement.currentTime = currentTime;
+      }
+    };
+    
+    audioElement.removeEventListener('loadedmetadata', handleTimeSet);
+    
+    if (audioElement.readyState >= 2) {
+      audioElement.currentTime = currentTime;
+    } else {
+      audioElement.addEventListener('loadedmetadata', handleTimeSet, { once: true });
+    }
+  })
+
+  $effect(() => {
+    if (state.currentStation) {
+      getStationSongs(state.currentStation).then((songs) => {
+        if (songs) {
+          state.songQueue = songs;
+          state.currentSong = state.songQueue[0];
+          state.duration = state.currentSong.duration;
+          setSongTime();
+        } else {
+          state.error = 'Failed to load songs.';
+        }
+      });
+    }
+  })
 </script>
 
 {#if !state.hasInteracted}
   <button
     class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer"
-    onclick={handleInteraction}
+    onclick={() => {
+      state.hasInteracted = true;
+      playAudio()
+    }}
   >
     <p>Click anywhere on the screen</p>
   </button>
@@ -131,11 +145,6 @@
         } else {
           state.error = 'Failed to load songs.';
         }
-      }
-    }}
-    ontimeupdate={() => {
-      if (audioElement) {
-        state.currentTime = audioElement.currentTime;
       }
     }}
     class="hidden"

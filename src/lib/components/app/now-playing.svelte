@@ -16,7 +16,7 @@
   <p class="text-sm">{state.currentSong?.artists}</p>
 </div>
 
-<Button size="icon" onclick={togglePlay} class="w-10 h-10 *:text-white ml-4">
+<Button size="icon" onclick={togglePlay} class="w-10 h-10 ml-4">
   {#if state.isPlaying}
     <Pause />
   {:else}
