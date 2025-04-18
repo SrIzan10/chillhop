@@ -17,7 +17,7 @@
     </p>
     <p>
       I do not have the right to the songs played on this radio station, nor do I have any
-      affiliation with Chillhop Music. <a href="https://github.com/SrIzan10/chillhop" class="underline">This project is open source</a> and not intended for
+      affiliation with Chillhop Music. <a href="https://github.com/SrIzan10/chillhop" class="underline" target="_blank">This project is open source</a> and not intended for
       commercial use.
     </p>
     <p>
