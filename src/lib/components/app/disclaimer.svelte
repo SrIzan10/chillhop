@@ -17,11 +17,14 @@
     </p>
     <p>
       I do not have the right to the songs played on this radio station, nor do I have any
-      affiliation with Chillhop Music. This project is open source and not intended for
-      commercial use. The source code is available on GitHub.
+      affiliation with Chillhop Music. <a href="https://github.com/SrIzan10/chillhop" class="underline">This project is open source</a> and not intended for
+      commercial use.
     </p>
     <p>
       🄯 GNU GPL, <a href="https://srizan.dev" class="underline">Sr Izan</a>.
+    </p>
+    <p class="text-sm">
+      Shoot me an email (izan *at* srizan *dot* dev) if you want this taken down.
     </p>
   </Dialog.Content>
 </Dialog.Root>
