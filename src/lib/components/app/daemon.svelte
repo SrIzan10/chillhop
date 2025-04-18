@@ -5,6 +5,7 @@
     
     // svelte-ignore non_reactive_update
     let audioElement: HTMLAudioElement;
+    let isInteracting = false; // Flag to prevent multiple interactions
 
     function togglePlayback(play: boolean) {
         if (!audioElement) return;
@@ -28,6 +29,22 @@
         state.isPlaying = !state.isPlaying;
         togglePlayback(state.isPlaying);
     };
+
+    function handleInteraction() {
+        if (isInteracting) return;
+        
+        isInteracting = true;
+        state.hasInteracted = true;
+        
+        if (state.isPlaying) {
+            setTimeout(() => {
+                playAudio();
+                isInteracting = false;
+            }, 100);
+        } else {
+            isInteracting = false;
+        }
+    }
 
     onMount(async () => {
         const data = await getGeneralData();
@@ -81,12 +98,7 @@
 </script>
 
 {#if !state.hasInteracted}
-  <button class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer" onclick={() => {
-    state.hasInteracted = true;
-    if (state.isPlaying) {
-      playAudio();
-    }
-  }}>
+  <button class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer" onclick={handleInteraction}>
     <p>Click anywhere on the screen</p>
   </button>
 {/if}
