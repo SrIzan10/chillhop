@@ -518,10 +518,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@lucide/svelte@^0.488.0":
-  version "0.488.0"
-  resolved "https://registry.yarnpkg.com/@lucide/svelte/-/svelte-0.488.0.tgz#8f600b12c2e5ff3933ffb22db33df3e50987e740"
-  integrity sha512-i8TFY+vOVci2J/UhaeF1Yj25NOL8UJ27hf+/CexvfIyLSdgid3zHwh0iVf+DlWpAsXXJl2rQ5Cl5g/qfMbfOHw==
+"@lucide/svelte@^0.492.0":
+  version "0.492.0"
+  resolved "https://registry.yarnpkg.com/@lucide/svelte/-/svelte-0.492.0.tgz#d37602405680f36bd263b3db6f9311b5887c0bf9"
+  integrity sha512-67ubMQPVSeoP0hWeNCJNhCB3IgOWXB0Ke7zwLObUidYH/1l0kGtIdN/cP9tJEWOg3QE33R3iqyXSAEKElMyJcQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1363,6 +1363,11 @@ minimatch@^9.0.4:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
+
+mode-watcher@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/mode-watcher/-/mode-watcher-0.5.1.tgz#310e6ac144b3f0b3cfb486e1015d9e746e503377"
+  integrity sha512-adEC6T7TMX/kzQlaO/MtiQOSFekZfQu4MC+lXyoceQG+U5sKpJWZ4yKXqw846ExIuWJgedkOIPqAYYRk/xHm+w==
 
 mri@^1.1.0:
   version "1.2.0"

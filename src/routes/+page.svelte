@@ -4,10 +4,12 @@
   import Daemon from '@/components/app/daemon.svelte';
   import Spinner from '@lucide/svelte/icons/loader';
   import { state } from '@/state.svelte';
+  import BackgroundAnalyzer from '@/components/app/background-analyzer.svelte';
 </script>
 
 <BgImage />
 <Daemon />
+<BackgroundAnalyzer videoSelector="#bg-video" updateInterval={2000} />
 
 {#if state.isLoading && !state.hasInteracted}
   <div class="flex flex-col h-screen w-full items-center justify-center space-y-2">
