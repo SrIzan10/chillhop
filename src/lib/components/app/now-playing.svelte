@@ -1,19 +1,15 @@
 <script lang="ts">
-  import { Button } from "@/components/ui/button";
-  import { state } from "@/state.svelte";
-  import Pause from "@lucide/svelte/icons/pause";
-  import Play from "@lucide/svelte/icons/play";
+  import { Button } from '@/components/ui/button';
+  import { state } from '@/state.svelte';
+  import Pause from '@lucide/svelte/icons/pause';
+  import Play from '@lucide/svelte/icons/play';
 
   function togglePlay() {
     state.togglePlay();
   }
 </script>
 
-<img
-  src={state.currentSong?.image}
-  alt="Cover Art"
-  class="size-16 rounded-lg shadow-lg"
-/>
+<img src={state.currentSong?.image} alt="Cover Art" class="size-16 rounded-lg shadow-lg" />
 
 <div class="flex flex-col ml-4">
   <h2 class="text-lg font-semibold">{state.currentSong?.title}</h2>
