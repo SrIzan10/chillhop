@@ -17,7 +17,7 @@
     <Radio />
   </DropdownMenu.Trigger>
   <DropdownMenu.Content
-    class="w-56 bg-white/10 backdrop-blur-md transition hover:bg-white/20 text-foreground border border-white/20 shadow-lg"
+    class="w-56"
   >
     <DropdownMenu.Group>
       <DropdownMenu.GroupHeading>Select station</DropdownMenu.GroupHeading>

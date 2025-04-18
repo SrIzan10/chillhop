@@ -8,7 +8,7 @@
     variants: {
       variant: {
         default:
-          'bg-white/10 backdrop-blur-md hover:bg-white/20 text-foreground border border-white/20 shadow-lg',
+          'bg-white/10 backdrop-blur-md hover:bg-white/15 text-foreground border border-white/20 shadow-lg',
         olddefault: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm',
         outline:
