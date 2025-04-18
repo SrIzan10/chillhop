@@ -11,10 +11,10 @@
     canvas.width = 32;
     canvas.height = 32;
     
-    const sourceY = Math.floor(video.videoHeight * 0.67); // take the top two-thirds
-    const sourceHeight = Math.floor(video.videoHeight * 0.33); // take the bottom third
+    const sourceY = Math.floor(video.videoHeight * 0.8);
+    // Sample only 20% of the video height
+    const sourceHeight = Math.floor(video.videoHeight * 0.2);
     
-    // draw the bottom third of the video to the canvas
     // prettier-ignore
     ctx.drawImage(
       video,
@@ -39,7 +39,7 @@
     }
 
     const avgBrightness = totalBrightness / pixelCount;
-    const isDark = avgBrightness < 0.45;
+    const isDark = avgBrightness < 0.3;
 
     setMode(isDark ? 'dark' : 'light');
 
