@@ -5,7 +5,6 @@
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
-  let isInteracting = false;
 
   function togglePlayback(play: boolean) {
     if (!audioElement) return;
@@ -31,17 +30,16 @@
     const data = await getGeneralData();
     state.presets = data.presets;
     state.stations = data.stations;
-    state.backgrounds = data.backgrounds;
+    // TODO: support parent backgrounds
+    state.backgrounds = data.backgrounds.filter(bg => bg.isActive === 1 && !bg.parentId);
     state.atmospheres = data.atmospheres;
 
     if (data.stations.length > 0 && state.currentStation === null) {
       state.currentStation = data.stations[0].id;
     }
-    if (data.backgrounds.length > 0 && state.currentBackgroundId === null) {
-      const firstActiveBg = data.backgrounds.find((bg) => bg.isActive && !bg.parentId);
-      state.currentBackgroundId = firstActiveBg
-        ? firstActiveBg.id
-        : data.backgrounds[0]?.id || null;
+    if (state.backgrounds.length > 0 && state.currentBackgroundId === null) {
+      state.currentBackgroundId = state.backgrounds[0].id;
+      console.log('asdf', state.currentBackgroundId);
     } else {
       state.error = 'Failed to load initial data (empty response).';
     }

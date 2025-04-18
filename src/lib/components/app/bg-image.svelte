@@ -1,5 +1,20 @@
+<script lang="ts">
+  import { state as appState } from '@/state.svelte';
+
+  let video: HTMLVideoElement | null = null;
+  $effect(() => {
+    const backgroundId = appState.currentBackgroundId;
+    if (backgroundId && video) {
+      const resolvedBg = appState.backgrounds.find((bg) => bg.id === backgroundId);
+      // i may or may not have yoinked this cors proxy for other purposes
+      video.src = `https://cors.notesnook.com/${resolvedBg?.landscapeUrl}` || '';
+    }
+  })
+</script>
+
 <video
-  src={true ? "https://ch-cdn.srizan.dev/discord-rain.mp4" : "https://ch-cdn.srizan.dev/flower-shop-beachside-moewalls-com.mp4"}
+  bind:this={video}
+  src={"https://example.com"}
   autoplay
   loop
   muted

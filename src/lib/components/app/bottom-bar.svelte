@@ -1,4 +1,5 @@
 <script>
+  import BgDropdown from '@/components/app/bg-dropdown.svelte';
   import Disclaimer from '@/components/app/disclaimer.svelte';
   import MusicPlayer from '@/components/app/now-playing.svelte';
   import StationDropdown from '@/components/app/station-dropdown.svelte';
@@ -12,6 +13,7 @@
   <div class="hidden sm:block flex-1"></div>
   <div class="flex gap-4 mt-3 sm:mt-0">
     <StationDropdown />
+    <BgDropdown />
     <Disclaimer />
   </div>
 </div>

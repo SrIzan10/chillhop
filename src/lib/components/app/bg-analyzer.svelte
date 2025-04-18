@@ -1,17 +1,26 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { setMode } from 'mode-watcher';
+  import { state as appState } from '@/state.svelte';
   
-  export let videoSelector: string = "#bg-video";
-  export let updateInterval: number = 2000;
-  console.log('update')
+  let { videoSelector }: { videoSelector: string } = $props();
 
   function analyzeVideoBrightness(video: HTMLVideoElement, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-    if (video.paused || video.ended) return;
+    const perf = window.performance.now();
+    if (video.paused || video.ended || video.readyState < 2) return;
 
     canvas.width = 32;
     canvas.height = 32;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    const sourceY = Math.floor(video.videoHeight * 0.67); // take the top two-thirds
+    const sourceHeight = Math.floor(video.videoHeight * 0.33); // take the bottom third
+    
+    // draw the bottom third of the video to the canvas
+    // prettier-ignore
+    ctx.drawImage(
+      video,
+      0, sourceY, video.videoWidth, sourceHeight,
+      0, 0, canvas.width, canvas.height
+    );
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
@@ -30,30 +39,40 @@
     }
 
     const avgBrightness = totalBrightness / pixelCount;
-    const isDark = avgBrightness < 0.5;
+    const isDark = avgBrightness < 0.45;
 
     setMode(isDark ? 'dark' : 'light');
+
+    const now = window.performance.now();
+    console.log(`brightness: ${avgBrightness}, time taken: ${now - perf}ms`);
   }
 
-  onMount(() => {
+  $effect(() => {
+    const videoId = appState.currentBackgroundId;
+    if (!videoId) return;
+    
     const video = document.querySelector(videoSelector) as HTMLVideoElement;
     if (!video) return;
 
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const analyzeWhenReady = () => {
+      if (video.readyState >= 2) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        analyzeVideoBrightness(video, canvas, ctx);
+        video.removeEventListener('loadeddata', analyzeWhenReady);
+      }
+    };
 
-    function updateGlobalTextColor() {
-      analyzeVideoBrightness(video, canvas, ctx!);
+    if (video.readyState >= 2) {
+      analyzeWhenReady();
     }
-
-    video.addEventListener('loadeddata', updateGlobalTextColor);
-
-    const interval = setInterval(updateGlobalTextColor, updateInterval);
-
+    
+    video.addEventListener('loadeddata', analyzeWhenReady);
+    
     return () => {
-      clearInterval(interval);
-      video.removeEventListener('loadeddata', updateGlobalTextColor);
+      video.removeEventListener('loadeddata', analyzeWhenReady);
     };
   });
 </script>

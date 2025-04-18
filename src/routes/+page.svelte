@@ -9,7 +9,7 @@
 
 <BgImage />
 <Daemon />
-<BackgroundAnalyzer videoSelector="#bg-video" updateInterval={2000} />
+<BackgroundAnalyzer videoSelector="#bg-video" />
 
 {#if state.isLoading && !state.hasInteracted}
   <div class="flex flex-col h-screen w-full items-center justify-center space-y-2">
