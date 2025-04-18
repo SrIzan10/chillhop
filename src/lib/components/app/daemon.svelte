@@ -11,18 +11,15 @@
     if (!audioElement) return;
 
     if (play && state.hasInteracted) {
+      audioElement.currentTime = state.currentTime;
       audioElement.play().catch(() => {
         state.error = 'Audio playback failed. Please interact with the page first.';
         state.isPlaying = false;
       });
-      audioElement.currentTime = state.currentTime;
     } else {
+      state.currentTime = audioElement.currentTime;
       audioElement.pause();
     }
-  }
-
-  function playAudio() {
-    togglePlayback(true);
   }
 
   state.togglePlay = () => {
@@ -115,7 +112,7 @@
     class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer"
     onclick={() => {
       state.hasInteracted = true;
-      playAudio()
+      togglePlayback(true);
     }}
   >
     <p>Click anywhere on the screen</p>
