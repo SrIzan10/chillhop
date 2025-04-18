@@ -4,7 +4,7 @@
   import Daemon from '@/components/app/daemon.svelte';
   import Spinner from '@lucide/svelte/icons/loader';
   import { state } from '@/state.svelte';
-  import BackgroundAnalyzer from '@/components/app/background-analyzer.svelte';
+  import BackgroundAnalyzer from '@/components/app/bg-analyzer.svelte';
 </script>
 
 <BgImage />
