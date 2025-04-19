@@ -30,7 +30,7 @@
     )}
     {...restProps}
   >
-    <div class="prose prose-invert max-w-none space-y-3 text-dynamic">
+    <div class="prose prose-invert max-w-none space-y-3 *:text-white">
       {@render children?.()}
     </div>
     <DialogPrimitive.Close

@@ -34,6 +34,11 @@
     state.backgrounds = data.backgrounds.filter(bg => bg.isActive === 1 && !bg.parentId);
     state.atmospheres = data.atmospheres;
 
+    const storedVolume = window.localStorage.getItem('volume');
+    if (storedVolume) {
+      state.volume = parseFloat(storedVolume);
+    }
+
     if (data.stations.length > 0 && state.currentStation === null) {
       state.currentStation = data.stations[0].id;
     }

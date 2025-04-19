@@ -11,6 +11,7 @@
   let value = $state(appState.volume);
   $effect(() => {
     appState.volume = value;
+    window.localStorage.setItem("volume", value.toString());
   });
 </script>
 
