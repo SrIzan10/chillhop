@@ -13,7 +13,7 @@
 
 <div
 	bind:this={ref}
-	class={cn("flex flex-col space-y-1.5 text-center sm:text-left *:text-whit", className)}
+	class={cn("flex flex-col space-y-1.5 text-center sm:text-left *:text-white", className)}
 	{...restProps}
 >
 	{@render children?.()}
