@@ -1,30 +1,30 @@
 <script lang="ts">
-  import { state } from '@/state.svelte';
+  import { state as appState } from '@/state.svelte';
   import { getGeneralData, getStationSongs, setSongTime } from '@/utils';
   import { onMount } from 'svelte';
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
-  let isTransitioning = false;
+  let isTransitioning = $state(false);
 
   function togglePlayback(play: boolean) {
     if (!audioElement) return;
 
-    if (play && state.hasInteracted) {
-      audioElement.currentTime = state.currentTime;
+    if (play && appState.hasInteracted) {
+      audioElement.currentTime = appState.currentTime;
       audioElement.play().catch(() => {
-        state.error = 'Audio playback failed. Please interact with the page first.';
-        state.isPlaying = false;
+        appState.error = 'Audio playback failed. Please interact with the page first.';
+        appState.isPlaying = false;
       });
     } else {
-      state.currentTime = audioElement.currentTime;
+      appState.currentTime = audioElement.currentTime;
       audioElement.pause();
     }
   }
 
-  state.togglePlay = () => {
-    state.isPlaying = !state.isPlaying;
-    togglePlayback(state.isPlaying);
+  appState.togglePlay = () => {
+    appState.isPlaying = !appState.isPlaying;
+    togglePlayback(appState.isPlaying);
   };
 
   // ios safari requires a user gesture to play audio
@@ -33,23 +33,23 @@
     if (isTransitioning) return;
     
     isTransitioning = true;
-    state.currentSong = null;
-    state.currentTime = 0;
+    appState.currentSong = null;
+    appState.currentTime = 0;
 
-    state.songQueue.shift();
-    if (state.songQueue.length > 0) {
-      state.currentSong = state.songQueue[0];
-      state.duration = state.currentSong.duration;
+    appState.songQueue.shift();
+    if (appState.songQueue.length > 0) {
+      appState.currentSong = appState.songQueue[0];
+      appState.duration = appState.currentSong.duration;
 
       setTimeout(() => { isTransitioning = false; }, 500);
     } else {
-      getStationSongs(state.currentStation!).then((songs) => {
+      getStationSongs(appState.currentStation!).then((songs) => {
         if (songs) {
-          state.songQueue = songs;
-          state.currentSong = state.songQueue[0];
-          state.duration = state.currentSong.duration;
+          appState.songQueue = songs;
+          appState.currentSong = appState.songQueue[0];
+          appState.duration = appState.currentSong.duration;
         } else {
-          state.error = 'Failed to load songs.';
+          appState.error = 'Failed to load songs.';
         }
 
         setTimeout(() => { isTransitioning = false; }, 500);
@@ -58,7 +58,7 @@
   }
 
   function checkTimeAndPrepareNextSong() {
-    if (!audioElement || !state.currentSong || isTransitioning) return;
+    if (!audioElement || !appState.currentSong || isTransitioning) return;
     
     // if near the end, prepare for next song
     if (audioElement.duration > 0 && 
@@ -70,54 +70,54 @@
 
   onMount(async () => {
     const data = await getGeneralData();
-    state.presets = data.presets;
-    state.stations = data.stations;
+    appState.presets = data.presets;
+    appState.stations = data.stations;
     // TODO: support parent backgrounds
-    state.backgrounds = data.backgrounds.filter(bg => bg.isActive === 1 && !bg.parentId);
-    state.atmospheres = data.atmospheres;
+    appState.backgrounds = data.backgrounds.filter(bg => bg.isActive === 1 && !bg.parentId);
+    appState.atmospheres = data.atmospheres;
 
     const storedVolume = window.localStorage.getItem('volume');
     if (storedVolume) {
-      state.volume = parseFloat(storedVolume);
+      appState.volume = parseFloat(storedVolume);
     }
 
-    if (data.stations.length > 0 && state.currentStation === null) {
-      state.currentStation = data.stations[0].id;
+    if (data.stations.length > 0 && appState.currentStation === null) {
+      appState.currentStation = data.stations[0].id;
     }
-    if (state.backgrounds.length > 0 && state.currentBackgroundId === null) {
-      state.currentBackgroundId = state.backgrounds[0].id;
-      console.log('asdf', state.currentBackgroundId);
+    if (appState.backgrounds.length > 0 && appState.currentBackgroundId === null) {
+      appState.currentBackgroundId = appState.backgrounds[0].id;
+      console.log('asdf', appState.currentBackgroundId);
     } else {
-      state.error = 'Failed to load initial data (empty response).';
+      appState.error = 'Failed to load initial data (empty response).';
     }
 
-    const stationSongs = await getStationSongs(state.currentStation!);
+    const stationSongs = await getStationSongs(appState.currentStation!);
     if (stationSongs) {
-      state.songQueue = stationSongs;
+      appState.songQueue = stationSongs;
     } else {
-      state.error = 'Failed to load songs.';
+      appState.error = 'Failed to load songs.';
     }
 
-    if (state.songQueue.length > 0) {
-      state.currentSong = state.songQueue[0];
-      state.duration = state.currentSong.duration;
+    if (appState.songQueue.length > 0) {
+      appState.currentSong = appState.songQueue[0];
+      appState.duration = appState.currentSong.duration;
     } else {
-      state.error = 'No songs available.';
+      appState.error = 'No songs available.';
     }
 
     setSongTime()
 
-    state.isLoading = false;
+    appState.isLoading = false;
   });
 
   $effect(() => {
     if (!audioElement) return;
-    togglePlayback(state.isPlaying);
+    togglePlayback(appState.isPlaying);
   });
 
   $effect(() => {
-    const currentTime = state.currentTime;
-    const currentSong = state.currentSong;
+    const currentTime = appState.currentTime;
+    const currentSong = appState.currentSong;
     console.log(`setting time to ${currentTime}`);
     
     if (!audioElement || !currentSong) return;
@@ -137,26 +137,26 @@
   })
 
   $effect(() => {
-    if (state.currentStation) {
-      getStationSongs(state.currentStation).then((songs) => {
+    if (appState.currentStation) {
+      getStationSongs(appState.currentStation).then((songs) => {
         if (songs) {
-          state.songQueue = songs;
-          state.currentSong = state.songQueue[0];
-          state.duration = state.currentSong.duration;
+          appState.songQueue = songs;
+          appState.currentSong = appState.songQueue[0];
+          appState.duration = appState.currentSong.duration;
           setSongTime();
         } else {
-          state.error = 'Failed to load songs.';
+          appState.error = 'Failed to load songs.';
         }
       });
     }
   })
 </script>
 
-{#if !state.hasInteracted}
+{#if !appState.hasInteracted}
   <button
     class="flex flex-col h-screen w-full items-center justify-center space-y-2 cursor-pointer"
     onclick={() => {
-      state.hasInteracted = true;
+      appState.hasInteracted = true;
       togglePlayback(true);
     }}
   >
@@ -164,12 +164,12 @@
   </button>
 {/if}
 
-{#if !state.isLoading}
+{#if !appState.isLoading}
   <audio
     bind:this={audioElement}
-    src={`https://stream.chillhop.com/mp3/${state.currentSong!.fileId}`}
+    src={`https://stream.chillhop.com/mp3/${appState.currentSong!.fileId}`}
     autoplay
-    volume={state.volume}
+    volume={appState.volume}
     ontimeupdate={checkTimeAndPrepareNextSong}
     onended={handleSongEnd}
     class="hidden"
