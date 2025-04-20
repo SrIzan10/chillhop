@@ -5,6 +5,7 @@
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
+  let isTransitioning = false;
 
   function togglePlayback(play: boolean) {
     if (!audioElement) return;
@@ -25,6 +26,47 @@
     state.isPlaying = !state.isPlaying;
     togglePlayback(state.isPlaying);
   };
+
+  // ios safari requires a user gesture to play audio
+  // please send help
+  function handleSongEnd() {
+    if (isTransitioning) return;
+    
+    isTransitioning = true;
+    state.currentSong = null;
+    state.currentTime = 0;
+
+    state.songQueue.shift();
+    if (state.songQueue.length > 0) {
+      state.currentSong = state.songQueue[0];
+      state.duration = state.currentSong.duration;
+
+      setTimeout(() => { isTransitioning = false; }, 500);
+    } else {
+      getStationSongs(state.currentStation!).then((songs) => {
+        if (songs) {
+          state.songQueue = songs;
+          state.currentSong = state.songQueue[0];
+          state.duration = state.currentSong.duration;
+        } else {
+          state.error = 'Failed to load songs.';
+        }
+
+        setTimeout(() => { isTransitioning = false; }, 500);
+      });
+    }
+  }
+
+  function checkTimeAndPrepareNextSong() {
+    if (!audioElement || !state.currentSong || isTransitioning) return;
+    
+    // if near the end, prepare for next song
+    if (audioElement.duration > 0 && 
+        audioElement.currentTime > 0 && 
+        audioElement.duration - audioElement.currentTime < 1.5) {
+      handleSongEnd();
+    }
+  }
 
   onMount(async () => {
     const data = await getGeneralData();
@@ -128,25 +170,8 @@
     src={`https://stream.chillhop.com/mp3/${state.currentSong!.fileId}`}
     autoplay
     volume={state.volume}
-    onended={async () => {
-      state.currentSong = null;
-      state.currentTime = 0;
-
-      state.songQueue.shift();
-      if (state.songQueue.length > 0) {
-        state.currentSong = state.songQueue[0];
-        state.duration = state.currentSong.duration;
-      } else {
-        const stationSongs = await getStationSongs(state.currentStation!);
-        if (stationSongs) {
-          state.songQueue = stationSongs;
-          state.currentSong = state.songQueue[0];
-          state.duration = state.currentSong.duration;
-        } else {
-          state.error = 'Failed to load songs.';
-        }
-      }
-    }}
+    ontimeupdate={checkTimeAndPrepareNextSong}
+    onended={handleSongEnd}
     class="hidden"
   ></audio>
 {/if}
