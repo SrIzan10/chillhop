@@ -22,6 +22,19 @@
     }
   }
 
+  function setMediaSession() {
+    if ('mediaSession' in navigator) {
+      const mediaSession = navigator.mediaSession;
+      mediaSession.metadata = new MediaMetadata({
+        title: appState.currentSong!.title,
+        artist: appState.currentSong!.artists,
+        artwork: [
+          { src: appState.currentSong!.image, sizes: '2000x2000', type: 'image/jpeg' }
+        ],
+      });
+    }
+  }
+
   appState.togglePlay = () => {
     appState.isPlaying = !appState.isPlaying;
     togglePlayback(appState.isPlaying);
@@ -40,6 +53,7 @@
     if (appState.songQueue.length > 0) {
       appState.currentSong = appState.songQueue[0];
       appState.duration = appState.currentSong.duration;
+      setMediaSession();
 
       setTimeout(() => { isTransitioning = false; }, 500);
     } else {
@@ -48,6 +62,7 @@
           appState.songQueue = songs;
           appState.currentSong = appState.songQueue[0];
           appState.duration = appState.currentSong.duration;
+          setMediaSession();
         } else {
           appState.error = 'Failed to load songs.';
         }
@@ -108,6 +123,19 @@
     setSongTime()
 
     appState.isLoading = false;
+
+    if ('mediaSession' in navigator) {
+      const mediaSession = navigator.mediaSession;
+      setMediaSession();
+      mediaSession.setActionHandler('play', () => {
+        appState.isPlaying = true;
+        togglePlayback(true);
+      });
+      mediaSession.setActionHandler('pause', () => {
+        appState.isPlaying = false;
+        togglePlayback(false);
+      });
+    }
   });
 
   $effect(() => {
@@ -144,6 +172,7 @@
           appState.currentSong = appState.songQueue[0];
           appState.duration = appState.currentSong.duration;
           setSongTime();
+          setMediaSession();
         } else {
           appState.error = 'Failed to load songs.';
         }
