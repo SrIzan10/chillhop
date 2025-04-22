@@ -14,8 +14,9 @@
     // prettier-ignore
     ctx.drawImage(
       video,
-      0, 0, video.videoWidth, video.videoHeight,
-      0, 0, canvas.width, canvas.height
+      0, video.videoHeight * 0.8, // 80% of the height
+      video.videoWidth, video.videoHeight * 0.2, // bottom 20% of the height
+      0, 0, canvas.width, canvas.height // draw to canvas
     );
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
