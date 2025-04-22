@@ -6,19 +6,15 @@
 
   function analyzeVideoBrightness(video: HTMLVideoElement, canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     const perf = window.performance.now();
-    if (video.paused || video.ended || video.readyState < 2) return;
-
+    if (video.ended || video.readyState < 3) return;
+    
     canvas.width = 32;
     canvas.height = 32;
-    
-    const sourceY = Math.floor(video.videoHeight * 0.8);
-    // Sample only 20% of the video height
-    const sourceHeight = Math.floor(video.videoHeight * 0.2);
     
     // prettier-ignore
     ctx.drawImage(
       video,
-      0, sourceY, video.videoWidth, sourceHeight,
+      0, 0, video.videoWidth, video.videoHeight,
       0, 0, canvas.width, canvas.height
     );
 
@@ -39,7 +35,7 @@
     }
 
     const avgBrightness = totalBrightness / pixelCount;
-    const isDark = avgBrightness < 0.3;
+    const isDark = avgBrightness < 0.4; 
 
     setMode(isDark ? 'dark' : 'light');
 
@@ -55,7 +51,7 @@
     if (!video) return;
 
     const analyzeWhenReady = () => {
-      if (video.readyState >= 2) {
+      if (video.readyState >= 3) {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -65,7 +61,7 @@
       }
     };
 
-    if (video.readyState >= 2) {
+    if (video.readyState >= 3) {
       analyzeWhenReady();
     }
     
