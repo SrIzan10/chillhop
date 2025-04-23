@@ -9,6 +9,7 @@ export const state = $state({
   volume: 0.5,
   isMuted: false,
   currentBackgroundId: null as string | null,
+  backgroundElement: null,
   activeAtmospheres: {} as Record<string, number>, // { atmosphereId: volume (0-100) }
   isLoading: true,
   error: null as string | null,
