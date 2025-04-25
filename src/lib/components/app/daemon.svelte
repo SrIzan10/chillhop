@@ -1,11 +1,13 @@
 <script lang="ts">
   import { state as appState } from '@/state.svelte';
-  import { getGeneralData, getStationSongs, setSongTime } from '@/utils';
+  import { getGeneralData, getStationSongs } from '@/utils';
   import { onMount } from 'svelte';
+  import { useIsMobile } from '@/isMobile.svelte';
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
   let isTransitioning = $state(false);
+  let isMobile = useIsMobile();
 
   function togglePlayback(play: boolean) {
     if (!audioElement) return;
@@ -139,8 +141,6 @@
       appState.error = 'No songs available.';
     }
 
-    setSongTime()
-
     appState.isLoading = false;
 
     if ('mediaSession' in navigator) {
@@ -190,7 +190,6 @@
           appState.songQueue = songs;
           appState.currentSong = appState.songQueue[0];
           appState.duration = appState.currentSong.duration;
-          setSongTime();
           setMediaSession();
         } else {
           appState.error = 'Failed to load songs.';
@@ -223,3 +222,15 @@
     class="hidden"
   ></audio>
 {/if}
+
+{#each Object.entries(appState.activeAtmospheres) as [name, volume]}
+  <audio
+    src={isMobile ? appState.atmospheres.find(atm => atm.name === name)?.urlMobile : appState.atmospheres.find(atm => atm.name === name)?.url}
+    class="hidden"
+    id={name}
+    volume={volume}
+    loop
+    autoplay
+    preload="none"
+  ></audio>
+{/each}
