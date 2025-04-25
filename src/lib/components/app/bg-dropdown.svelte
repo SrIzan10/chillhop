@@ -7,6 +7,8 @@
   let selectedBackgroundId = $state(appState.currentBackgroundId!.toString());
   $effect(() => {
     appState.currentBackgroundId = selectedBackgroundId;
+    window.localStorage.setItem('backgroundId', selectedBackgroundId);
+    console.log('background changed to:', selectedBackgroundId);
   })
 </script>
 
@@ -15,7 +17,7 @@
     <Image />
   </DropdownMenu.Trigger>
   <DropdownMenu.Content
-    class="max-h-[50vh] overflow-y-auto"
+    class="max-h-[50vh] overflow-y-auto custom-scrollbar"
   >
     <DropdownMenu.Group>
       <DropdownMenu.GroupHeading>Select background</DropdownMenu.GroupHeading>

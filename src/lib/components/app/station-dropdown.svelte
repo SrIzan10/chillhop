@@ -8,6 +8,8 @@
   $effect(() => {
     if (selectedStationId) {
       appState.currentStation = parseInt(selectedStationId);
+      window.localStorage.setItem('stationId', selectedStationId);
+      console.log('Station changed to:', selectedStationId);
     }
   });
 </script>

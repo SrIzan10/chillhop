@@ -97,3 +97,33 @@
   color: var(--text-color);
   text-shadow: var(--text-shadow);
 }
+
+@layer utilities {
+  @-moz-document url-prefix() {
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: var(--glass-border) transparent;
+    }
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--glass-border);
+    border-radius: 20px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--thicker-glass-border);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-button {
+    width: 0px;
+  }
+}

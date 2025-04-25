@@ -2,6 +2,13 @@
   import { state as appState } from '@/state.svelte';
 
   let video: HTMLVideoElement | null = null;
+  
+  $effect(() => {
+    if (video) {
+      appState.backgroundElement = video;
+    }
+  });
+
   $effect(() => {
     const backgroundId = appState.currentBackgroundId;
     if (backgroundId && video) {
