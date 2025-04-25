@@ -14,9 +14,9 @@
 
     if (appState.backgroundElement) {
       if (play) {
-        (appState.backgroundElement as HTMLVideoElement).play().catch(e => console.error('Error playing background video:', e));
+        appState.backgroundElement.play().catch(e => console.error('Error playing background video:', e));
       } else {
-        (appState.backgroundElement as HTMLVideoElement).pause();
+        appState.backgroundElement.pause();
       }
     }
 
@@ -107,22 +107,22 @@
     }
 
     if (data.stations.length > 0) {
-      const storedStationId = window.localStorage.getItem('StationId');
+      const storedStationId = window.localStorage.getItem('stationId');
       if (storedStationId && data.stations.some(station => station.id.toString() === storedStationId)) {
-      appState.currentStation = parseInt(storedStationId, 10);
+        appState.currentStation = parseInt(storedStationId, 10);
       } else {
-      appState.currentStation = data.stations[0].id;
+        appState.currentStation = data.stations[0].id;
       }
-      console.log('Current station ID:', appState.currentStation);
+      console.log('current station ID:', appState.currentStation);
     }
     if (appState.backgrounds.length > 0) {
       const storedBackgroundId = window.localStorage.getItem('backgroundId');
       if (storedBackgroundId && appState.backgrounds.some(bg => bg.id === storedBackgroundId)) {
-      appState.currentBackgroundId = storedBackgroundId;
+        appState.currentBackgroundId = storedBackgroundId;
       } else {
-      appState.currentBackgroundId = appState.backgrounds[0].id;
+        appState.currentBackgroundId = appState.backgrounds[0].id;
       }
-      console.log('Current background ID:', appState.currentBackgroundId);
+      console.log('current background ID:', appState.currentBackgroundId);
     } else {
       appState.error = 'Failed to load initial data (empty response).';
     }

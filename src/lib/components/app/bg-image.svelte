@@ -5,7 +5,7 @@
   
   $effect(() => {
     if (video) {
-      (appState as any).backgroundElement = video;
+      appState.backgroundElement = video;
     }
   });
 

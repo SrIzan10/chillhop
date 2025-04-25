@@ -8,7 +8,7 @@
   $effect(() => {
     appState.currentBackgroundId = selectedBackgroundId;
     window.localStorage.setItem('backgroundId', selectedBackgroundId);
-    console.log('Background changed to:', selectedBackgroundId);
+    console.log('background changed to:', selectedBackgroundId);
   })
 </script>
 
