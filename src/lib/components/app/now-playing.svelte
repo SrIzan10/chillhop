@@ -17,7 +17,7 @@
     <p class="text-sm">{state.currentSong?.artists}</p>
   </div>
   <div class="flex-1"></div>
-  <div class="gap-4">
+  <div class="gap-4 flex">
     <Button size="icon" onclick={togglePlay} class="size-10 md:ml-4">
       {#if state.isPlaying}
         <Pause />
@@ -25,6 +25,8 @@
         <Play />
       {/if}
     </Button>
-    <Volume />
+    <div class="hidden sm:block">
+      <Volume />
+    </div>
   </div>
 </div>

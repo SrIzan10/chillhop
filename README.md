@@ -7,9 +7,9 @@ The ultimate lofi player. Uses music from [Chillhop](https://chillhop.com/).
 - [x] Play music
 - [x] Change stations
 - [x] Change backgrounds
+- [ ] Background sounds
 - [ ] Pomodoro timers
 - [ ] Volume control
-- [ ] Background sounds
 - [ ] Links to Spotify
 - [ ] Alarm(?)
 - [ ] Sleep timer

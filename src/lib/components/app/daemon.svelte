@@ -204,3 +204,14 @@
     class="hidden"
   ></audio>
 {/if}
+
+{#each Object.entries(appState.activeAtmospheres) as [name, volume]}
+  <audio
+    src={`https://chill1.b-cdn.net/audio/v4/desktop/${name}.mp3`}
+    class="hidden"
+    id={name}
+    volume={volume}
+    loop
+    autoplay
+  ></audio>
+{/each}
