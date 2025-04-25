@@ -20,6 +20,7 @@
   function getVolumeValue(name: string) {
     return appState.activeAtmospheres[name] || 0;
   }
+  console.log(appState.atmospheres)
 </script>
 
 <DropdownMenu.Root>

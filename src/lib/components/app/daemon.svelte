@@ -2,10 +2,12 @@
   import { state as appState } from '@/state.svelte';
   import { getGeneralData, getStationSongs } from '@/utils';
   import { onMount } from 'svelte';
+  import { useIsMobile } from '@/isMobile.svelte';
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
   let isTransitioning = $state(false);
+  let isMobile = useIsMobile();
 
   function togglePlayback(play: boolean) {
     if (!audioElement) return;
@@ -204,7 +206,7 @@
 
 {#each Object.entries(appState.activeAtmospheres) as [name, volume]}
   <audio
-    src={`https://chill1.b-cdn.net/audio/v4/desktop/${name}.mp3`}
+    src={isMobile ? appState.atmospheres.find(atm => atm.name === name)?.urlMobile : appState.atmospheres.find(atm => atm.name === name)?.url}
     class="hidden"
     id={name}
     volume={volume}
