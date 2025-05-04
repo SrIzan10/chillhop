@@ -1364,10 +1364,13 @@ minimatch@^9.0.4:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
-mode-watcher@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/mode-watcher/-/mode-watcher-0.5.1.tgz#310e6ac144b3f0b3cfb486e1015d9e746e503377"
-  integrity sha512-adEC6T7TMX/kzQlaO/MtiQOSFekZfQu4MC+lXyoceQG+U5sKpJWZ4yKXqw846ExIuWJgedkOIPqAYYRk/xHm+w==
+mode-watcher@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/mode-watcher/-/mode-watcher-1.0.5.tgz#3640af1995cfed0a389a4a77c64275d1518997b0"
+  integrity sha512-HRURoPayaI+5Wv7OeRZ0P+Y1MjeQixdy2aC4lfnxtZdxfRSU5XIVQvqWqkkN9Bxtz8RHM6I3AaZKD7ZS1z1sBQ==
+  dependencies:
+    runed "^0.25.0"
+    svelte-toolbelt "^0.7.1"
 
 mri@^1.1.0:
   version "1.2.0"
@@ -1645,6 +1648,13 @@ runed@^0.23.2:
   dependencies:
     esm-env "^1.0.0"
 
+runed@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/runed/-/runed-0.25.0.tgz#dad779435734eb4d2bbab85798e2da36e1bd7af4"
+  integrity sha512-7+ma4AG9FT2sWQEA0Egf6mb7PBT2vHyuHail1ie8ropfSjvZGtEAx8YTmUjv/APCsdRRxEVvArNjALk9zFSOrg==
+  dependencies:
+    esm-env "^1.0.0"
+
 sade@^1.7.4, sade@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/sade/-/sade-1.8.1.tgz#0a78e81d658d394887be57d2a409bf703a3b2701"
@@ -1830,6 +1840,11 @@ svelte-check@^4.0.0:
     fdir "^6.2.0"
     picocolors "^1.0.0"
     sade "^1.7.4"
+
+svelte-sonner@^0.3.28:
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/svelte-sonner/-/svelte-sonner-0.3.28.tgz#b24b3e7af924d5c50ca2e33cede1382283074abf"
+  integrity sha512-K3AmlySeFifF/cKgsYNv5uXqMVNln0NBAacOYgmkQStLa/UoU0LhfAACU6Gr+YYC8bOCHdVmFNoKuDbMEsppJg==
 
 svelte-toolbelt@^0.7.1:
   version "0.7.1"

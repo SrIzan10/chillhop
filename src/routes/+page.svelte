@@ -5,6 +5,7 @@
   import Spinner from '@lucide/svelte/icons/loader';
   import { state } from '@/state.svelte';
   import BackgroundAnalyzer from '@/components/app/bg-analyzer.svelte';
+  import Title from '@/components/app/title.svelte';
 </script>
 
 <BgImage />
@@ -26,5 +27,6 @@
     <p>Error: {state.error}</p>
   </div>
 {:else if state.hasInteracted}
+  <Title />
   <BottomBar />
 {/if}

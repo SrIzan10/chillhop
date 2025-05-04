@@ -4,6 +4,7 @@
   import MusicPlayer from '@/components/app/now-playing.svelte';
   import Sounds from '@/components/app/atmospheres.svelte';
   import StationDropdown from '@/components/app/station-dropdown.svelte';
+  import Feedback from '@/components/app/feedback.svelte';
 </script>
 
 <div
@@ -16,6 +17,7 @@
     <StationDropdown />
     <BgDropdown />
     <Sounds />
+    <Feedback />
     <Disclaimer />
   </div>
 </div>
