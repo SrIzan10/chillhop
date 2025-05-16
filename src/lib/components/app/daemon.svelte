@@ -3,6 +3,8 @@
   import { getGeneralData, getStationSongs } from '@/utils';
   import { onMount } from 'svelte';
   import { useIsMobile } from '@/isMobile.svelte';
+  import Window from '../ui/window/window.svelte';
+  import TodoList from './todo-list.svelte';
 
   // svelte-ignore non_reactive_update
   let audioElement: HTMLAudioElement;
@@ -234,3 +236,15 @@
     preload="none"
   ></audio>
 {/each}
+
+<Window
+  title="Todo List"
+  showTitleBar={true}
+  showCloseButton={true}
+  width={320}
+  height={400}
+  onClose={() => appState.showTodoList = false}
+  show={appState.showTodoList}
+>
+  <TodoList></TodoList>
+</Window>

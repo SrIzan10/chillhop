@@ -23,6 +23,9 @@ export const state = $state({
   
   windowZIndexCounter: 50,
 
+  todoList: [] as string[],
+  showTodoList: false,
+
   // in daemon.svelte
   togglePlay: (() => {}) as () => void,
 });

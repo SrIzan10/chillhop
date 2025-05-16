@@ -14,6 +14,7 @@
     showTitleBar = true,
     showCloseButton = true,
     onClose = () => {},
+    show = false,
     initialZIndex = 50,
   }: {
     children?: Snippet;
@@ -25,6 +26,7 @@
     showTitleBar?: boolean;
     showCloseButton?: boolean;
     onClose?: () => void;
+    show?: boolean;
     initialZIndex?: number;
   } = $props();
 
@@ -107,37 +109,36 @@
   });
 </script>
 
-<div
-  bind:this={windowRef}
-  class="fixed flex flex-col bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-lg overflow-hidden"
-  style="width: {width}px; height: {height}px; left: {x}px; top: {y}px; z-index: {zIndex};"
-  onmousedown={handleMouseDown}
-  role="dialog"
-  tabindex="0"
->
-  {#if showTitleBar}
-    <div
-      bind:this={headerRef}
-      class="h-8 px-3 flex items-center justify-between bg-black/10 border-b border-white/10 select-none"
-      style="cursor: {isDragging ? 'grabbing' : 'grab'};"
-    >
-      <span class="text-sm font-medium text-white/90">{title}</span>
-      {#if showCloseButton}
-        <button
-          onclick={onClose}
-          class="w-5 h-5 flex items-center justify-center text-white/70 hover:text-white hover:bg-red-500/50 rounded-sm transition-colors"
-          aria-label="Close window"
-        >
-          <X class="size-4" />
-        </button>
-      {/if}
+{#if show}
+  <div
+    bind:this={windowRef}
+    class="fixed flex flex-col bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-lg overflow-hidden"
+    style="width: {width}px; height: {height}px; left: {x}px; top: {y}px; z-index: {zIndex};"
+    onmousedown={handleMouseDown}
+    role="dialog"
+    tabindex="0"
+  >
+    {#if showTitleBar}
+      <div
+        bind:this={headerRef}
+        class="h-8 px-3 flex items-center justify-between bg-black/10 border-b border-white/10 select-none"
+        style="cursor: {isDragging ? 'grabbing' : 'grab'};"
+      >
+        <span class="text-sm font-medium text-white/90">{title}</span>
+        {#if showCloseButton}
+          <button
+            onclick={onClose}
+            class="w-5 h-5 flex items-center justify-center text-white/70 hover:text-white hover:bg-red-500/50 rounded-sm transition-colors"
+            aria-label="Close window"
+          >
+            <X class="size-4" />
+          </button>
+        {/if}
+      </div>
+    {/if}
+
+    <div class="flex-1 p-1 overflow-auto bg-transparent" role="dialog" tabindex="0">
+      {@render children?.()}
     </div>
-  {/if}
-
-  <div class="flex-1 p-1 overflow-auto bg-transparent" role="dialog" tabindex="0">
-    {@render children?.()}
   </div>
-</div>
-
-<style>
-</style>
+{/if}
