@@ -3,21 +3,32 @@
   import Button from '../ui/button/button.svelte';
   import Plus from '@lucide/svelte/icons/plus';
   import X from '@lucide/svelte/icons/x';
-  import { useIsMobile } from '@/isMobile.svelte';
   
-  let newTodoText = '';
-  let mobile = useIsMobile();
+  let newTodoText = $state('');
   
   function addTodo() {
     if (newTodoText.trim()) {
       appState.todoList = [...appState.todoList, newTodoText];
+      localStorageWrite();
       newTodoText = '';
     }
   }
   
   function removeTodo(index: number) {
     appState.todoList = appState.todoList.filter((_, i) => i !== index);
+    localStorageWrite();
   }
+
+  function localStorageWrite() {
+    localStorage.setItem('todoList', JSON.stringify(appState.todoList));
+  }
+
+  $effect(() => {
+    const storedTodos = localStorage.getItem('todoList');
+    if (storedTodos) {
+      appState.todoList = JSON.parse(storedTodos);
+    }
+  })
 </script>
 
 <div class="flex gap-2 mb-6">
@@ -25,7 +36,7 @@
     bind:value={newTodoText}
     placeholder="Add a new task..."
     class="flex-1 pl-3 rounded-lg bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-40"
-    on:keypress={(e) => e.key === 'Enter' && addTodo()}
+    onkeypress={(e) => e.key === 'Enter' && addTodo()}
   />
   <Button onclick={addTodo} class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg" size="icon"><Plus /></Button>
 </div>
@@ -38,11 +49,11 @@
       <li class="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg group hover:bg-opacity-15 transition-all">
         <span class="text-white">{todo}</span>
         <button 
-          on:click={() => removeTodo(index)}
+          onclick={() => removeTodo(index)}
           class="text-white hover:text-red-300 focus:outline-none"
           aria-label="Remove todo"
         >
-          <X class="size-5" />
+          <X class="size-4" />
         </button>
       </li>
     {/each}
