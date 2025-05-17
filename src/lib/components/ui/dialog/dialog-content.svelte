@@ -34,7 +34,7 @@
       {@render children?.()}
     </div>
     <DialogPrimitive.Close
-      class="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none backdrop-blur-sm p-1 shadow-sm dark:bg-black/20 bg-white/20 transition border-white/20 dark:border-black/20"
+      class="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none backdrop-blur-sm p-1 shadow-sm dark:bg-black/20 bg-white/20 border-white/20 dark:border-black/20"
     >
       <X class="size-4" color="white" />
       <span class="sr-only">Close</span>

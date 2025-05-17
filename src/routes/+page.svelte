@@ -6,6 +6,7 @@
   import { state } from '@/state.svelte';
   import BackgroundAnalyzer from '@/components/app/bg-analyzer.svelte';
   import Title from '@/components/app/title.svelte';
+  import LeftBar from '@/components/app/left-bar.svelte';
 </script>
 
 <BgImage />
@@ -28,5 +29,6 @@
   </div>
 {:else if state.hasInteracted}
   <Title />
+  <LeftBar />
   <BottomBar />
 {/if}
