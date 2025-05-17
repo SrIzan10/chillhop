@@ -26,6 +26,11 @@ export const state = $state({
   todoList: [] as string[],
   showTodoList: false,
 
+  show202020: false,
+  is202020active: false,
+  firstTimer: 20 * 60,
+  secondTimer: 20,
+
   // in daemon.svelte
   togglePlay: (() => {}) as () => void,
 });
