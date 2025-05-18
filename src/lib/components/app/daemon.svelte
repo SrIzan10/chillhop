@@ -217,7 +217,7 @@
 {#if !appState.isLoading}
   <audio
     bind:this={audioElement}
-    src={`https://stream.chillhop.com/mp3/${appState.currentSong!.fileId}`}
+    src={appState.currentSong!.endpoint || `https://stream.chillhop.com/mp3/${appState.currentSong!.fileId}`}
     autoplay
     volume={appState.volume}
     ontimeupdate={checkTimeAndPrepareNextSong}

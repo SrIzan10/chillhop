@@ -1,6 +1,7 @@
 export interface Song {
   id: number;
-  fileId: number;
+  fileId: number | string;
+  endpoint?: string;
   artists: string;
   title: string;
   image: string;
@@ -73,4 +74,14 @@ export interface ChillhopData {
   stations: Station[];
   backgrounds: Background[];
   atmospheres: Atmosphere[];
+}
+
+export interface BRStation {
+  // database count id
+  id: number;
+  // actual id
+  ID: string;
+  order: string;
+  Name: string;
+  Source: string;
 }
