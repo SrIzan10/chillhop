@@ -20,6 +20,16 @@ export const state = $state({
   stations: [] as Station[],
   backgrounds: [] as Background[],
   atmospheres: [] as Atmosphere[],
+  
+  windowZIndexCounter: 50,
+
+  todoList: [] as string[],
+  showTodoList: false,
+
+  show202020: false,
+  is202020Active: false,
+  workRuleTimer: 20 * 60,
+  restRuleTimer: 20,
 
   // in daemon.svelte
   togglePlay: (() => {}) as () => void,
