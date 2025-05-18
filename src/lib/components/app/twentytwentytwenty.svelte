@@ -17,10 +17,10 @@
     const defaultFirst = 20 * 60;
     const defaultSecond = 20;
 
-    if (!appState.firstTimer) appState.firstTimer = defaultFirst;
-    if (!appState.secondTimer) appState.secondTimer = defaultSecond;
+    if (!appState.workRuleTimer) appState.workRuleTimer = defaultFirst;
+    if (!appState.restRuleTimer) appState.restRuleTimer = defaultSecond;
 
-    timeLeft = appState.firstTimer;
+    timeLeft = appState.workRuleTimer;
   });
 
   function playSound(element: HTMLAudioElement) {
@@ -52,20 +52,20 @@
       } else {
         if (workPhase) {
           workPhase = false;
-          timeLeft = appState.secondTimer;
+          timeLeft = appState.restRuleTimer;
           playSound(startSoundElement);
         } else {
           workPhase = true;
-          timeLeft = appState.firstTimer;
+          timeLeft = appState.workRuleTimer;
           playSound(endSoundElement);
-          appState.is202020active = false;
+          appState.is202020Active = false;
         }
       }
     }, 1000);
   }
 
   $effect(() => {
-    if (appState.is202020active) {
+    if (appState.is202020Active) {
       startCountdown();
     } else if (intervalHandle) {
       clearInterval(intervalHandle);
@@ -76,26 +76,26 @@
       if (intervalHandle) {
         clearInterval(intervalHandle);
         intervalHandle = null;
-        appState.is202020active = false;
+        appState.is202020Active = false;
       }
     };
   });
 
   function startTimer() {
     reset();
-    timeLeft = appState.firstTimer;
+    timeLeft = appState.workRuleTimer;
     workPhase = true;
-    appState.is202020active = true;
+    appState.is202020Active = true;
   }
 
   function stopTimer() {
     reset();
-    appState.is202020active = false;
+    appState.is202020Active = false;
   }
 
   function reset() {
-    appState.firstTimer = 20 * 60; // 20 * 60 on prod
-    appState.secondTimer = 20; // 20 on prod
+    appState.workRuleTimer = 20 * 60; // 20 * 60 on prod
+    appState.restRuleTimer = 20; // 20 on prod
   }
 </script>
 
@@ -130,7 +130,7 @@
   </div>
 
   <div class="flex gap-2">
-    {#if appState.is202020active}
+    {#if appState.is202020Active}
       <Button variant="destructive" onclick={stopTimer}>Stop</Button>
     {:else}
       <Button onclick={startTimer}>Start</Button>
