@@ -29,7 +29,7 @@
       {/if}
     </Button>
   </Popover.Trigger>
-  <Popover.Content class="w-2 h-32" side="top">
+  <Popover.Content class="h-32" side="top">
     <Slider type="single" orientation="vertical" bind:value max={1} step={0.01} />
   </Popover.Content>
 </Popover.Root>

@@ -3,6 +3,7 @@
   import { ModeWatcher } from "mode-watcher";
   import { dev } from '$app/environment';
   import { Toaster } from "$lib/components/ui/sonner/index.js";
+  import * as Tooltip from "$lib/components/ui/tooltip/index.js";
   let { children } = $props();
 </script>
 
@@ -11,4 +12,7 @@
 {#if !dev}
   <script defer src="https://analytics.srizan.dev/ua.js" data-website-id="02aba16d-f8eb-4363-973b-dab04db4de10"></script>
 {/if}
-{@render children()}
+
+<Tooltip.Provider delayDuration={300}>
+  {@render children()}
+</Tooltip.Provider>

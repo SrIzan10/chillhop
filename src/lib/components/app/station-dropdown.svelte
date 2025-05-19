@@ -3,6 +3,7 @@
   import { buttonVariants } from '$lib/components/ui/button/index.js';
   import { state as appState } from '@/state.svelte';
   import Radio from '@lucide/svelte/icons/radio';
+  import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 
   let selectedStationId = $state(appState.currentStation!.toString());
   $effect(() => {
@@ -15,12 +16,17 @@
 </script>
 
 <DropdownMenu.Root>
-  <DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
-    <Radio />
-  </DropdownMenu.Trigger>
-  <DropdownMenu.Content
-    class="w-56"
-  >
+  <Tooltip.Root>
+    <Tooltip.Trigger>
+      <DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
+        <Radio />
+      </DropdownMenu.Trigger>
+    </Tooltip.Trigger>
+    <Tooltip.Content>
+      <p>Stations</p>
+    </Tooltip.Content>
+  </Tooltip.Root>
+  <DropdownMenu.Content class="w-56">
     <DropdownMenu.Group>
       <DropdownMenu.GroupHeading>Select station</DropdownMenu.GroupHeading>
       <DropdownMenu.Separator />
