@@ -3,7 +3,6 @@
   import { buttonVariants } from '$lib/components/ui/button/index.js';
   import { state as appState } from '@/state.svelte';
   import Image from '@lucide/svelte/icons/image';
-  import * as Tooltip from "$lib/components/ui/tooltip/index.js";
 
   let selectedBackgroundId = $state(appState.currentBackgroundId!.toString());
   $effect(() => {
@@ -14,16 +13,9 @@
 </script>
 
 <DropdownMenu.Root>
-  <Tooltip.Root>
-    <Tooltip.Trigger>
-      <DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
-        <Image />
-      </DropdownMenu.Trigger>
-    </Tooltip.Trigger>
-    <Tooltip.Content>
-      <p>Backgrounds</p>
-    </Tooltip.Content>
-  </Tooltip.Root>
+  <DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
+    <Image />
+  </DropdownMenu.Trigger>
   <DropdownMenu.Content
     class="max-h-[50vh] overflow-y-auto custom-scrollbar"
   >

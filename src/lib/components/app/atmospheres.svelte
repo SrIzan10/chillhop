@@ -8,7 +8,6 @@
   import VolumeZero from '@lucide/svelte/icons/volume';
   import VolumeOne from '@lucide/svelte/icons/volume-1';
   import VolumeTwo from '@lucide/svelte/icons/volume-2';
-  import * as Tooltip from "$lib/components/ui/tooltip/index.js";
 
   function sliderChange(name: string, volume: number) {
     if (volume === 0) {
@@ -25,16 +24,9 @@
 </script>
 
 <DropdownMenu.Root>
-  <Tooltip.Root>
-    <Tooltip.Trigger>
-      <DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
-        <AudioLines />
-      </DropdownMenu.Trigger>
-    </Tooltip.Trigger>
-    <Tooltip.Content>
-      <p>Atmospheres</p>
-    </Tooltip.Content>
-  </Tooltip.Root>
+  <DropdownMenu.Trigger class={buttonVariants({ variant: 'default', size: 'icon' })}>
+    <AudioLines />
+  </DropdownMenu.Trigger>
   <DropdownMenu.Content class="w-56 max-h-[50vh] overflow-y-auto">
     <DropdownMenu.Group>
       <DropdownMenu.GroupHeading>Atmospheres</DropdownMenu.GroupHeading>

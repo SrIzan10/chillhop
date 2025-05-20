@@ -2,18 +2,10 @@
   import * as Dialog from '$lib/components/ui/dialog/index.js';
   import Info from '@lucide/svelte/icons/info';
   import { Button } from '../ui/button';
-  import * as Tooltip from "$lib/components/ui/tooltip/index.js";
 </script>
 
 <Dialog.Root>
-  <Tooltip.Root>
-    <Tooltip.Trigger>
-      <Dialog.Trigger>
-        <Button size="icon"><Info /></Button>
-      </Dialog.Trigger>
-    </Tooltip.Trigger>
-    <Tooltip.Content>Info</Tooltip.Content>
-  </Tooltip.Root>
+  <Dialog.Trigger><Button size="icon"><Info /></Button></Dialog.Trigger>
   <Dialog.Content>
     <Dialog.Header>
       <Dialog.Title>Info & disclaimer</Dialog.Title>
