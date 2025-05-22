@@ -26,9 +26,13 @@ export async function getStationSongs(stationId: number) {
 }
 
 export function setSongTime() {
+  if (!state.currentSong!.startTime) {
+    state.currentTime = 0;
+    return;
+  }
   const currentTime = new Date().getTime() / 1000;
   const startTime = new Date(state.currentSong!.startTime).getTime() / 1000;
-  const endTime = new Date(state.currentSong!.endTime).getTime() / 1000;
+  const endTime = new Date(state.currentSong!.endTime!).getTime() / 1000;
   const duration = endTime - startTime;
   const elapsed = currentTime - startTime;
   if (elapsed > 0 && elapsed < duration) {

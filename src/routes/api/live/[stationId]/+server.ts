@@ -1,3 +1,5 @@
+import type { Song } from '@/types.js';
+
 export async function GET(event) {
   const { stationId } = event.params;
   const stationIdInt = parseInt(stationId);
@@ -14,12 +16,12 @@ export async function GET(event) {
         const [artist, title] = noOpus.split(' - ');
         return {
           id: parseInt((Math.random() * 1000000).toFixed(0)),
-          endpoint: `https://lofi-cdn.srizan.dev/sleep/${song}`,
           fileId: noOpus,
-          image: `https://lofi-cdn.srizan.dev/sleep/thumbs/${noOpus}.webp`,
+          endpoint: `https://lofi-cdn.srizan.dev/sleep/${song}`,
           artists: artist,
           title: title,
-        }
+          image: `https://lofi-cdn.srizan.dev/sleep/thumbs/${noOpus}.webp`,
+        } as Song;
       });
       return new Response(JSON.stringify(randomData), {
         headers: {
