@@ -5,16 +5,16 @@ export interface Song {
   artists: string;
   title: string;
   image: string;
-  likes: number;
+  likes?: number;
   featured?: string;
-  releaseDate: string;
-  releaseDateText: string;
-  duration: number;
-  isrc: string;
-  label: string;
-  spotifyId: string;
-  startTime: string;
-  endTime: string;
+  releaseDate?: string;
+  releaseDateText?: string;
+  duration?: number;
+  isrc?: string;
+  label?: string;
+  spotifyId?: string;
+  startTime?: string;
+  endTime?: string;
 }
 
 export interface Preset {
@@ -84,4 +84,10 @@ export interface BRStation {
   order: string;
   Name: string;
   Source: string;
+}
+
+export interface StationClass {
+  stationId: number;
+  getFiles(): Promise<string[]>;
+  finalData(): Promise<Song[]>;
 }
