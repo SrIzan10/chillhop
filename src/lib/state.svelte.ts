@@ -14,7 +14,7 @@ export const state = $state({
   isLoading: true,
   error: null as string | null,
   currentTime: 0,
-  duration: 0,
+  duration: 0 as number | undefined,
 
   presets: [] as Preset[],
   stations: [] as Station[],

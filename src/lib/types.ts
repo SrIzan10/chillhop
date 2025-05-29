@@ -85,9 +85,3 @@ export interface BRStation {
   Name: string;
   Source: string;
 }
-
-export interface StationClass {
-  stationId: number;
-  getFiles(): Promise<string[]>;
-  finalData(): Promise<Song[]>;
-}
