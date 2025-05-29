@@ -1,4 +1,5 @@
 import type { Song } from "@/types";
+import { SIMDMersenneTwister } from "@/mersenne";
 
 export async function getSleepStationSongs(): Promise<Song[]> {
   const m = new SIMDMersenneTwister();

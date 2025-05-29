@@ -1,17 +1,28 @@
+import type { Song } from '@/types';
 import { getChillhopStation } from './chillhop';
 import { getSleepStationSongs } from './sleep';
 
-const customStations = {
+const customStations: Record<number, () => Promise<Song[]>> = {
   50000: getSleepStationSongs,
 };
-const chillhopStations = Object.fromEntries(
-  Array.from({ length: 100 }, (_, i) => {
-    const stationId = 10000 + i;
-    return [stationId, getChillhopStation.bind(null, stationId)];
-  })
-);
 
-export const stations = {
-  ...customStations,
-  ...chillhopStations,
-};
+export const stations: Record<number, () => Promise<Song[]>> = new Proxy(customStations, {
+  get(target, prop) {
+    const stationId = Number(prop);
+    
+    if (target[stationId]) {
+      return target[stationId];
+    }
+    
+    if (stationId >= 10000 && stationId < 20000) {
+      return () => getChillhopStation(stationId);
+    }
+    
+    return undefined;
+  },
+  
+  has(target, prop) {
+    const stationId = Number(prop);
+    return target[stationId] !== undefined || (stationId >= 10000 && stationId < 20000);
+  }
+});

@@ -79,7 +79,7 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-class SIMDMersenneTwister {
+export class SIMDMersenneTwister {
   /* SFMT period parameters for SFMT19937 */
   private readonly MEXP = 19937;
   private readonly N = Math.floor(this.MEXP / 128) + 1; // 156
