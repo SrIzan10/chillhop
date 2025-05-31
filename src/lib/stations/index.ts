@@ -1,6 +1,7 @@
 import type { Song } from '@/types';
 import { getChillhopStation } from './chillhop';
 import { getSleepStationSongs } from './sleep';
+import { getChillhopData } from '@/utils';
 
 const customStations: Record<number, () => Promise<Song[]>> = {
   50000: getSleepStationSongs,
@@ -26,3 +27,8 @@ export const stations: Record<number, () => Promise<Song[]>> = new Proxy(customS
     return target[stationId] !== undefined || (stationId >= 10000 && stationId < 20000);
   }
 });
+
+export const stationMetadata = Promise.resolve([
+  { id: 50000, name: 'Lofi Sleep', description: 'Custom station with relaxing lofi beats' },
+  ...(await getChillhopData()).stations
+])

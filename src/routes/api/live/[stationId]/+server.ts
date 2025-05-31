@@ -7,7 +7,7 @@ export async function GET(event) {
     return new Response('Invalid station ID', { status: 400 });
   }
 
-   const stationFunction = stations[stationIdInt];
+  const stationFunction = stations[stationIdInt];
   if (!stationFunction) {
     return new Response('Station not found', { status: 404 });
   }
