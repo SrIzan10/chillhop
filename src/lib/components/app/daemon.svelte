@@ -195,6 +195,7 @@
           appState.currentSong = appState.songQueue[0];
           appState.duration = appState.currentSong.duration;
           setMediaSession();
+          document.title = `${appState.currentSong.title} - ${appState.currentSong.artists}`;
         } else {
           appState.error = 'Failed to load songs.';
         }
