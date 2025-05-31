@@ -3,9 +3,9 @@ export interface Song {
   title: string;
   endpoint: string;
   image: string;
+  duration: number; // not really used right now
   label?: string; // optional record label
-  spotifyId?: string; // TODO: enforce in the future for all spotify scraped stations
-  duration?: number; // TODO: enforce in all stations
+  spotifyId?: string; // TODO: enforce in the future for all spotify scraped stations, unused atm.
 }
 
 export interface CHSong {

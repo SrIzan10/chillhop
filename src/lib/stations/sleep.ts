@@ -1,5 +1,6 @@
 import type { Song } from "@/types";
 import { SIMDMersenneTwister } from "@/mersenne";
+import { fisherYates } from "@/fisheryates";
 
 export async function getSleepStationSongs(): Promise<Song[]> {
   const m = new SIMDMersenneTwister();
@@ -16,9 +17,10 @@ export async function getSleepStationSongs(): Promise<Song[]> {
       title: title,
       image: `https://lofi-cdn.srizan.dev/sleep/thumbs/${file.replace('.opus', '')}.webp`,
       label: 'Chilled Cat',
+      duration: 0, // TODO: get duration for all songs and put them in list.json
     };
   }) as Song[];
 
-  const shuffled = mapped.sort(() => 0.5 - m.random()).slice(0, 5);
+  const shuffled = fisherYates(m, mapped).slice(0, 5);
   return shuffled;
 }
