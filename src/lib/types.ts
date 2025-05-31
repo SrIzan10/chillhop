@@ -1,20 +1,30 @@
 export interface Song {
+  artists: string;
+  title: string;
+  endpoint: string;
+  image: string;
+  duration: number; // not really used right now
+  label?: string; // optional record label
+  spotifyId?: string; // TODO: enforce in the future for all spotify scraped stations, unused atm.
+}
+
+export interface CHSong {
   id: number;
   fileId: number | string;
   endpoint?: string;
   artists: string;
   title: string;
   image: string;
-  likes: number;
+  likes?: number;
   featured?: string;
-  releaseDate: string;
-  releaseDateText: string;
-  duration: number;
-  isrc: string;
-  label: string;
-  spotifyId: string;
-  startTime: string;
-  endTime: string;
+  releaseDate?: string;
+  releaseDateText?: string;
+  duration?: number;
+  isrc?: string;
+  label?: string;
+  spotifyId?: string;
+  startTime?: string;
+  endTime?: string;
 }
 
 export interface Preset {
@@ -47,7 +57,7 @@ export interface DecodedStationMeta {
 export interface Station {
   name: string;
   id: number;
-  meta: string; // Base64 encoded JSON string (DecodedStationMeta)
+  meta?: string; // Base64 encoded JSON string (DecodedStationMeta)
 }
 
 export interface Background {
