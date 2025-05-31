@@ -57,7 +57,7 @@ export interface DecodedStationMeta {
 export interface Station {
   name: string;
   id: number;
-  meta: string; // Base64 encoded JSON string (DecodedStationMeta)
+  meta?: string; // Base64 encoded JSON string (DecodedStationMeta)
 }
 
 export interface Background {

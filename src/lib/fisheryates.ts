@@ -3,7 +3,7 @@
 
 import type { SIMDMersenneTwister } from "./mersenne";
 
-export const fisherYates = (sfml: SIMDMersenneTwister, ...arr: any[]) => {
+export const fisherYates = (arr: any[], sfml: SIMDMersenneTwister) => {
   let m = arr.length;
   while (m) {
     const i = Math.floor(sfml.random() * m--);

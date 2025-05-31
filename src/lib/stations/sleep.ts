@@ -21,6 +21,6 @@ export async function getSleepStationSongs(): Promise<Song[]> {
     };
   }) as Song[];
 
-  const shuffled = fisherYates(m, mapped).slice(0, 5);
+  const shuffled = fisherYates(mapped, m).slice(0, 5);
   return shuffled;
 }

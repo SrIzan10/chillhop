@@ -1,4 +1,4 @@
-import { stations } from '@/stations/index.js';
+import { stations } from '@/stations';
 
 export async function GET(event) {
   const { stationId } = event.params;
