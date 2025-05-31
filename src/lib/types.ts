@@ -1,4 +1,14 @@
 export interface Song {
+  artists: string;
+  title: string;
+  endpoint: string;
+  image: string;
+  label?: string; // optional record label
+  spotifyId?: string; // TODO: enforce in the future for all spotify scraped stations
+  duration?: number; // TODO: enforce in all stations
+}
+
+export interface CHSong {
   id: number;
   fileId: number | string;
   endpoint?: string;

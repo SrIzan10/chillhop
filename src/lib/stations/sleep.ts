@@ -10,12 +10,12 @@ export async function getSleepStationSongs(): Promise<Song[]> {
   const mapped = files.map(file => {
     const [artist, title] = file.replace('.opus', '').split(' - ');
     return {
-      id: 727,
       fileId: file.replace('.opus', ''),
       endpoint: `https://lofi-cdn.srizan.dev/sleep/${file}`,
       artists: artist,
       title: title,
       image: `https://lofi-cdn.srizan.dev/sleep/thumbs/${file.replace('.opus', '')}.webp`,
+      label: 'Chilled Cat',
     };
   }) as Song[];
 
